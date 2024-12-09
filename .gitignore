@@ -1,0 +1,7 @@
+/venv/
+/db.sqlite3
+/.python-version
+/secrets.json
+/dtcc_dte4ped_viewer_back/staticfiles/
+*.pyc
+.idea/*
