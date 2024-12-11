@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'knox',
+    'drf_yasg',
 
     'apps.accounts',
 ]
@@ -168,6 +169,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'knox.auth.TokenAuthentication',
     ),
+    'EXCEPTION_HANDLER': 'apps.helpers.handlers.response_exception_handler',
     'DATETIME_FORMAT': '%Y-%m-%dT%H:%M:%S',
 }
 

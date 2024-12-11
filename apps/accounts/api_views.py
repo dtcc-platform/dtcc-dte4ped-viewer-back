@@ -3,7 +3,7 @@ from knox.auth import TokenAuthentication
 from knox.models import AuthToken
 from rest_framework import viewsets
 from rest_framework.decorators import action
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.accounts.serializers import UserSerializer, LoginSerializer
 from apps.helpers.responses import SuccessResponse
@@ -11,7 +11,8 @@ from apps.helpers.responses import SuccessResponse
 
 class AccountsViewSet(viewsets.GenericViewSet):
     permission_classes_by_action = {
-        "login": [AllowAny],
+        "secure_endpoint": [IsAuthenticated],
+        "default": [AllowAny]
     }
     serializer_class = UserSerializer
     authentication_classes = [TokenAuthentication, ]
@@ -62,3 +63,11 @@ class AccountsViewSet(viewsets.GenericViewSet):
                 "token": AuthToken.objects.create(user)[1]
             })
 
+    # temporary actions
+    @action(methods=['get', 'post'], detail=False)
+    def secure_endpoint(self, request, *args, **kwargs):
+        return SuccessResponse({})
+
+    @action(methods=['get', 'post'], detail=False)
+    def unsecure_endpoint(self, request, *args, **kwargs):
+        return SuccessResponse({})
