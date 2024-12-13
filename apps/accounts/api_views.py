@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from apps.accounts.serializers import UserSerializer, LoginSerializer
-from apps.helpers.responses import SuccessResponse
+from apps.helpers.responses import SuccessResponse, BadRequestResponse
 
 
 class AccountsViewSet(viewsets.GenericViewSet):
@@ -62,6 +62,8 @@ class AccountsViewSet(viewsets.GenericViewSet):
                 "user": serializer.data,
                 "token": AuthToken.objects.create(user)[1]
             })
+
+        return BadRequestResponse(error="Wrong credentials")
 
     # temporary actions
     @action(methods=['get', 'post'], detail=False)
